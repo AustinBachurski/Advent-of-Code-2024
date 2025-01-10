@@ -98,7 +98,7 @@ fn get_indicies(row: usize, column: usize) -> [WordIndicies; 10] {
 
 
 fn main() {
-    let input = fs::read_to_string("../../data/day4/input.txt")
+    let input = fs::read_to_string("../../data/day4.txt")
         .expect("failed to open input file");
 
     let lines: Vec<&str> = input.split('\n').collect();
