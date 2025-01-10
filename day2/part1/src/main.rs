@@ -43,7 +43,7 @@ fn is_safe(report: &Vec<i32>) -> bool {
 }
 
 fn main() {
-    let input = fs::read_to_string("../../data/day2/input.txt")
+    let input = fs::read_to_string("../../data/day2.txt")
         .expect("failed to open input file");
 
     let reports: Vec<Vec<i32>> = input
