@@ -2,7 +2,7 @@ use std::fs;
 
 
 fn main() {
-    let input = fs::read_to_string("../../data/day5/input.txt")
+    let input = fs::read_to_string("../../data/day5.txt")
         .expect("failed to open input file");
 
     let ordering: Vec<(&str, &str)> = input
