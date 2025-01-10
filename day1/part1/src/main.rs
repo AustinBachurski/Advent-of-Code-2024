@@ -2,7 +2,7 @@ use std::fs;
 
 
 fn main() {
-    let input = fs::read_to_string("../../data/day1/input.txt")
+    let input = fs::read_to_string("../../data/day1.txt")
         .expect("failed to open input file");
 
     let mut values = input.split_whitespace();
