@@ -3,7 +3,7 @@ use regex::Regex;
 
 
 fn main() {
-    let mut input = fs::read_to_string("../../data/day3/input.txt")
+    let mut input = fs::read_to_string("../../data/day3.txt")
         .expect("failed to open input file");
 
     let mut start = input.find("don't()");
