@@ -3,7 +3,7 @@ use regex::Regex;
 
 
 fn main() {
-    let input = fs::read_to_string("../../data/day3/input.txt")
+    let input = fs::read_to_string("../../data/day3.txt")
         .expect("failed to open input file");
 
     let pattern = Regex::new(r"mul\(([0-9][0-9]?[0-9]?,[0-9][0-9]?[0-9]?)\)").unwrap();
