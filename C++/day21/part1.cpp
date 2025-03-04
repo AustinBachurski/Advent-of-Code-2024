@@ -41,13 +41,9 @@ int main()
 			command += numericKeypad.press(c);
 		}
 
-		std::println("Command: {}", command);
-
 		commands.push_back(command);
 
 		std::from_chars(code.data(), code.data() + code.size(), number);
-
-		std::println("Number: {}", number);
 
 		total += (commands.back().size() * number);
 	}

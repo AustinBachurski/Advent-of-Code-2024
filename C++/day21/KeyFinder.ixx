@@ -70,9 +70,9 @@ public:
 	};
 
 	[[nodiscard]]
-	std::vector<char> find_path(const char targetButton, const int startButton, const Keypad type)
+	std::vector<char> find_path(const char targetButton, const int startButton)
 	{
-		const auto target{ key_location(targetButton, type) };
+		const auto target{ key_location(targetButton, Keypad::directional) };
 		const auto offKeypad{ '#' };
 
 		std::priority_queue<Node, std::vector<Node>, NodeComparer> openList;
@@ -104,7 +104,7 @@ public:
 
 			for (const auto& [next, direction] : possible_directions(current.index))
 			{
-				if (seen.contains(next) || keypad(type)[next] == offKeypad)
+				if (seen.contains(next) || m_directionalKeypad[next] == offKeypad)
 				{
 					continue;
 				}
@@ -121,6 +121,99 @@ public:
 		}
 
 		return {};
+	}
+
+	[[nodiscard]]
+	std::vector<std::vector<char>> find_best_paths(const char targetButton, const int startButton)
+	{
+		const auto target{ key_location(targetButton, Keypad::numeric) };
+		const auto offKeypad{ '#' };
+
+		std::vector<std::vector<char>> bestPaths;
+		int bestCost{ std::numeric_limits<int>::max() };
+		std::unordered_set<int> invalid;
+
+		std::priority_queue<Node, std::vector<Node>, NodeComparer> openList;
+		std::unordered_set<int> seen;
+		std::unordered_map<Node, Node, NodeHasher> pathNodes;
+
+		bool doneSearching{ false };
+		while (!doneSearching)
+		{
+			while (!openList.empty())
+			{
+				openList.pop();
+			}
+
+			pathNodes.clear();
+			seen.clear();
+
+			for (const auto button : invalid)
+			{
+				if (button != startButton && button != targetButton)
+				{
+					seen.insert(button);
+				}
+			}
+
+			Node current{ startButton, Direction::none, 0, 0 };
+			openList.push(current);
+			pathNodes[current];
+
+			while (!openList.empty())
+			{
+				current = openList.top();
+				openList.pop();
+
+				if (current.index == target)
+				{
+					if (bestCost >= current.tCost)
+					{
+						bestCost = current.tCost;
+					}
+					else
+					{
+						doneSearching = true;
+						break;
+					}
+
+
+					std::vector<char> path;
+
+					while (current.index != startButton)
+					{
+						path.push_back(direction_to_char(current.direction));
+						invalid.insert(current.index);
+						current = pathNodes[current];
+					}
+
+					std::ranges::reverse(path);
+					path.push_back(m_charA);
+					bestPaths.emplace_back(std::move(path));
+					continue;
+				}
+
+				for (const auto& [next, direction] : possible_directions(current.index))
+				{
+					if (seen.contains(next) || m_numericKeypad[next] == offKeypad)
+					{
+						continue;
+					}
+
+					auto tCost{ current.tCost + (direction == current.direction ? 1 : 2) };
+					auto hCost{ tCost + manhattan_distance(current.index, target) };
+
+					Node node{ next, direction, tCost, hCost };
+
+					pathNodes[node] = current;
+					openList.push(node);
+				}
+				seen.insert(current.index);
+			}
+			doneSearching = true;
+		}
+
+		return bestPaths;
 	}
 
 	[[nodiscard]]

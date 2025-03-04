@@ -19,7 +19,7 @@ public:
 	{ }
 
 	[[nodiscard]]
-	std::vector<char> move_and_press(const std::span<char> path)
+	std::vector<char> move_and_press(const std::vector<char>& path)
 	{
 		std::vector<char> updatedPath;
 
@@ -30,7 +30,7 @@ public:
 
 		for (const auto direction : path)
 		{
-			updatedPath.append_range(m_path.find_path(direction, m_position, Keypad::directional));
+			updatedPath.append_range(m_path.find_path(direction, m_position));
 			updatedPath.push_back('A');
 			m_position = m_path.key_location(direction, Keypad::directional);
 		}
@@ -61,8 +61,8 @@ public:
 
 	std::string press(const char c)
 	{
-		auto path{ m_path.find_path(c, m_position, Keypad::numeric) };
-		path.push_back('A');
+		auto paths{ m_path.find_best_paths(c, m_position) };
+
 		m_position = m_path.key_location(c, Keypad::numeric);
 
 		if (!m_master)
@@ -70,12 +70,22 @@ public:
 			return {};
 		}
 
-		auto completePath = m_master->move_and_press(path);
+		std::vector<std::vector<char>> commandSets;
+
+		for (const auto& path : paths)
+		{
+			commandSets.push_back(m_master->move_and_press(path));
+		}
+
+		auto shortest{ std::ranges::min(commandSets, [](const std::span<char> lhs, const std::span<char> rhs)
+			{
+				return lhs.size() < rhs.size();
+			})};
 
 		std::string commands;
-		commands.reserve(completePath.size());
+		commands.reserve(shortest.size());
 
-		for (const auto c : completePath)
+		for (const auto c : shortest)
 		{
 			commands += c;
 		}
