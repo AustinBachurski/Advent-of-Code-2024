@@ -1,6 +1,6 @@
 # Advent-of-Code-2024
 
-Practicing C++ and learning Rust with Advent of Code 2024.  Currently on day 21 part 2.
+Practicing C++ and learning Rust with Advent of Code 2024.  Currently on day 24.
 
 Credit to [Advent of Code](https://adventofcode.com/)
 
