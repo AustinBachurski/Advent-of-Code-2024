@@ -88,7 +88,7 @@ concept StringViewable = requires(T s)
 };
 
 template <StringViewable T>
-static auto check_intermediate_usage(std::string_view const intermediate, T instructions, std::map<std::string_view, std::unordered_set<Bit>>& bits, std::set<std::string_view>& errors) -> void
+static auto check_intermediate_usage(std::string_view const intermediate, T instructions, std::map<std::string_view, std::unordered_set<Bit>> &bits, std::set<std::string_view> &errors) -> void
 {
 	for (auto const instructionLine : instructions)
 	{ 
@@ -125,7 +125,7 @@ static auto check_intermediate_usage(std::string_view const intermediate, T inst
 }
 
 template <StringViewable T>
-static auto check_internal_carry_usage(std::string_view const internalCarry, T instructions, std::map<std::string_view, std::unordered_set<Bit>>& bits, std::set<std::string_view>& errors) -> void
+static auto check_internal_carry_usage(std::string_view const internalCarry, T instructions, std::map<std::string_view, std::unordered_set<Bit>> &bits, std::set<std::string_view> &errors) -> void
 {
 	for (auto const instructionLine : instructions)
 	{ 
@@ -162,7 +162,7 @@ static auto check_internal_carry_usage(std::string_view const internalCarry, T i
 }
 
 template <StringViewable T>
-static auto check_internal_sum_usage(std::string_view const internalSum, T instructions, std::map<std::string_view, std::unordered_set<Bit>>& bits, std::set<std::string_view>& errors) -> void
+static auto check_internal_sum_usage(std::string_view const internalSum, T instructions, std::map<std::string_view, std::unordered_set<Bit>> &bits, std::set<std::string_view> &errors) -> void
 {
 	for (auto const instructionLine : instructions)
 	{ 
@@ -199,7 +199,7 @@ static auto check_internal_sum_usage(std::string_view const internalSum, T instr
 }
 
 template <StringViewable T>
-static auto check_for_errors(std::string_view const operand, T instructions, std::map<std::string_view, std::unordered_set<Bit>>& bits, std::set<std::string_view>& errors) -> void
+static auto check_for_errors(std::string_view const operand, T instructions, std::map<std::string_view, std::unordered_set<Bit>> &bits, std::set<std::string_view> &errors) -> void
 {
 	for (auto const instructionLine : instructions)
 	{ 
